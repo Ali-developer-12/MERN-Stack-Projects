@@ -39,6 +39,9 @@ router.patch('/:id',async(req, res)=>{
         if(req.body.text !== undefined){
             todo.text = req.body.text;
         }
+        if(req.body.completed !== undefined){
+            todo.completed = req.body.completed;
+    }
 
         const updateTodo = await todo.save();
         res.json(updateTodo)
@@ -50,10 +53,12 @@ router.patch('/:id',async(req, res)=>{
 
 router.delete('/:id', async (req, res)=>{
     try{
-        await Todo.findById(req.params.id);
+        await Todo.findByIdAndDelete(req.params.id);
         res.json('todo deleted')
     }
     catch(err){
         res.status(500).json({message: err.message});
     }
 })
+
+export const todoRoutes = router;
